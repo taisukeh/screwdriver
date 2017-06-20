@@ -987,4 +987,129 @@ describe('pipeline plugin test', () => {
             });
         });
     });
+
+    describe('PUT /pipelines/{id}', () => {
+        let options;
+        const unformattedCheckoutUrl = 'git@github.com:screwdriver-cd/data-MODEL.git';
+        const formattedCheckoutUrl = 'git@github.com:screwdriver-cd/data-model.git#master';
+        const scmUri = 'github.com:12345:master';
+        const scmRepo = {
+            id: 'github.com:123456:master'
+        };
+        const token = 'secrettoken';
+        // const testId = '123';
+        const username = 'd2lam';
+        const id = '123';
+        let pipelineMock;
+        let userMock;
+
+        beforeEach(() => {
+            options = {
+                method: 'PUT',
+                url: `/pipelines/${id}`,
+                payload: {
+                    checkoutUrl: unformattedCheckoutUrl
+                },
+                credentials: {
+                    username,
+                    scope: ['user']
+                }
+            };
+
+            userMock = getUserMock({ username });
+            userMock.getPermissions.withArgs(scmUri).resolves({ admin: true });
+            userMock.unsealToken.resolves(token);
+            userFactoryMock.get.withArgs({ username }).resolves(userMock);
+
+            pipelineMock = getPipelineMocks(testPipeline);
+            pipelineMock.sync.resolves(pipelineMock);
+            pipelineMock.addWebhook.resolves(null);
+
+            pipelineFactoryMock.get.resolves(null);
+            pipelineFactoryMock.create.resolves(pipelineMock);
+
+            pipelineFactoryMock.scm.parseUrl.resolves(scmUri);
+            scmMock.decorateUrl.resolves(scmRepo);
+        });
+
+        it.only('returns 200 and correct pipeline data', () => {
+            console.log('hi');
+
+            return server.inject(options).then((reply) => {
+                assert.deepEqual(reply.result, testPipeline);
+                assert.called(pipelineFactoryMock.update);
+                assert.equal(reply.statusCode, 200);
+            });
+        });
+
+        it('formats the checkout url correctly', () => {
+            userMock.getPermissions.withArgs(scmUri).resolves({ admin: false });
+
+            return server.inject(options).then(() => {
+                assert.calledWith(pipelineFactoryMock.scm.parseUrl, {
+                    checkoutUrl: formattedCheckoutUrl,
+                    token
+                });
+                assert.calledWith(userMock.getPermissions, scmUri);
+            });
+        });
+
+        it('returns 401 when the user does not have admin permissions', () => {
+            userMock.getPermissions.withArgs(scmUri).resolves({ admin: false });
+
+            return server.inject(options).then((reply) => {
+                assert.equal(reply.statusCode, 401);
+            });
+        });
+
+        it('returns 409 when the pipeline already exists', () => {
+            pipelineFactoryMock.get.resolves(pipelineMock);
+
+            return server.inject(options).then((reply) => {
+                assert.equal(reply.statusCode, 409);
+                assert.strictEqual(reply.result.message,
+                    `Pipeline already exists with the ID: ${pipelineMock.id}`);
+            });
+        });
+
+        it('returns 500 when the pipeline model fails to get', () => {
+            const testError = new Error('pipelineModelGetError');
+
+            pipelineFactoryMock.get.rejects(testError);
+
+            return server.inject(options).then((reply) => {
+                assert.equal(reply.statusCode, 500);
+            });
+        });
+
+        it('returns 500 when the pipeline model fails to create', () => {
+            const testError = new Error('pipelineModelCreateError');
+
+            pipelineFactoryMock.create.rejects(testError);
+
+            return server.inject(options).then((reply) => {
+                assert.equal(reply.statusCode, 500);
+            });
+        });
+
+        it('returns 500 when the pipeline model fails to sync during create', () => {
+            const testError = new Error('pipelineModelSyncError');
+
+            pipelineMock.sync.rejects(testError);
+
+            return server.inject(options).then((reply) => {
+                assert.equal(reply.statusCode, 500);
+            });
+        });
+
+        it('returns 500 when the pipeline model fails to add webhooks during create', () => {
+            const testError = new Error('pipelineModelAddWebhookError');
+
+            pipelineMock.addWebhook.rejects(testError);
+
+            return server.inject(options).then((reply) => {
+                assert.equal(reply.statusCode, 500);
+            });
+        });
+    });
 });
