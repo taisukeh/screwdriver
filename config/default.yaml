@@ -119,6 +119,11 @@ executor:
 
         # Launcher container tag to use
         launchVersion: stable
+    jenkins:
+      host: localhost
+      port: 8080
+      username: screwdriver
+      password: screwdriver
 
 scm:
     plugin: github

@@ -96,6 +96,12 @@ executor:
         launchVersion: LAUNCH_VERSION
         # Prefix to the container
         prefix: EXECUTOR_PREFIX
+    jenkins:
+      host: EXECUTOR_JENKINS_HOST
+      port: EXECUTOR_JENKINS_PORT
+      username: EXECUTOR_JENKINS_USERNAME
+      # Jenkins password/token used for authenticating jenkins requests
+      password: EXECUTOR_JENKINS_PASSWORD
 
 scm:
     plugin: SCM_PLUGIN
