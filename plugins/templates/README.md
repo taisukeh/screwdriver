@@ -27,27 +27,35 @@ server.register({
 
 ### Routes
 
-#### Get all templates
-`page` and `count` optional
+#### Template
+##### Get all templates
 
-`GET /templates?page={pageNumber}&count={countNumber}`
+`GET /templates`
 
-#### Get single template
+##### Get a single template
 
-`GET /templates/{id}`
+You can get a single template by providing the template name and the specific version or the tag.
 
-#### Create a template
-Create a template will store the template data (`config`, `name`, `version`, `description`, `maintainer`, `labels`) into the datastore.
+`GET /templates/{name}/{tag}` or `GET /templates/{name}/{version}`
 
-If the exact template and version already exist, the only thing that can be changed is `labels`.
+###### Arguments
 
-If the template already exists but not the version, the new version will be stored provided that the build has correct permissions.
+'name', 'tag' or 'version'
 
-This endpoint is only accessible in `build` scope.
+* `name` - Name of the template
+* `tag` - Tag of the template (e.g. `stable`, `latest`, etc)
+* `version` - Version of the template
+
+##### Create a template
+Creating a template will store the template data (`config`, `name`, `version`, `description`, `maintainer`) into the datastore.
+
+`version` will be auto-bumped. For example, if `mytemplate@1.0.0` already exists and the version passed in is `1.0.0`, the newly created template will be version `1.0.1`. 
+
+*Note: This endpoint is only accessible in `build` scope and the permission is tied to the pipeline that first creates the template.*
 
 `POST /templates`
 
-**Arguments**
+###### Arguments
 
 'name', 'version', 'description', 'maintainer', labels
 
@@ -73,3 +81,24 @@ Example payload:
   }
 }
 ```
+
+#### Template Tag
+Template tag allows fetching on template version by tag. For example, tag `mytemplate@1.1.0` as `stable`. 
+
+##### Create/Update a tag
+
+If the template tag already exists, it will update the tag with the new version. If the template tag doesn't exist yet, this endpoint will create the tag.
+
+*Note: This endpoint is only accessible in `build` scope and the permission is tied to the pipeline that creates the template.*
+
+`PUT /templates/{templateName}/tags/{tagName}` with the following payload
+
+* `version` - Exact version of the template (ex: `1.1.0`)
+
+##### Delete a tag
+
+Delete the template tag. This does not delete the template itself. 
+
+*Note: This endpoint is only accessible in `build` scope and the permission is tied to the pipeline that creates the template.*
+
+`DELETE /templates/{templateName}/tags/{tagName}`
