@@ -126,10 +126,8 @@ executor:
           port: 8080
           username: screwdriver
           password: screwdriver
-      # The command to start build
-      buildCommand: /opt/bin/sd-worker
-      # The command to clean up build system
-      cleanupCommand: /opt/bin/sd-cleanup
+      docker:
+          command: docker
       # Time (seconds) to destory the job
       cleanupTimeout: 30
 
