@@ -120,19 +120,18 @@ executor:
         # Launcher container tag to use
         launchVersion: stable
     jenkins:
-      options:
-        # Configuration of Jenkins
-        jenkins:
-            host: jenkins.default
-            port: 8080
-            username: screwdriver
-            password: screwdriver
-        # The command to start build
-        buildCommand: /opt/bin/sd-worker
-        # The command to clean up build system
-        cleanupCommand: /opt/bin/sd-cleanup
-        # Time (seconds) to destory the job
-        cleanupTimeout: 30
+      # Configuration of Jenkins
+      jenkins:
+          host: jenkins.default
+          port: 8080
+          username: screwdriver
+          password: screwdriver
+      # The command to start build
+      buildCommand: /opt/bin/sd-worker
+      # The command to clean up build system
+      cleanupCommand: /opt/bin/sd-cleanup
+      # Time (seconds) to destory the job
+      cleanupTimeout: 30
 
 scm:
     plugin: github
