@@ -83,32 +83,32 @@ executor:
         # Prefix to the container
         prefix: EXECUTOR_PREFIX
     k8s-vm:
-      # Configuration of Docker
-      kubernetes:
-          # The host or IP of the kubernetes cluster
-          host: K8S_HOST
-          # The jwt token used for authenticating kubernetes requests
-          token: K8S_TOKEN
-          jobsNamespace: K8S_JOBS_NAMESPACE
-          baseImage: K8S_BASE_IMAGE
-      # Launcher container tag to use
-      launchVersion: LAUNCH_VERSION
-      # Prefix to the container
-      prefix: EXECUTOR_PREFIX
-    jenkins:
       options:
-        jenkins:
-            host: EXECUTOR_JENKINS_HOST
-            port: EXECUTOR_JENKINS_PORT
-            username: EXECUTOR_JENKINS_USERNAME
-            # Jenkins password/token used for authenticating jenkins requests
-            password: EXECUTOR_JENKINS_PASSWORD
-        # The command to start build
-        buildCommand: EXECUTOR_JENKINS_BUILD_COMMAND
-        # The command to clean up build system
-        cleanupCommand: EXECUTOR_JENKINS_CLEANUP_COMMAND
-        # Time (seconds) to destory the job
-        cleanupTimeout: EXECUTOR_JENKINS_CLEANUP_TIMEOUT
+        # Configuration of Docker
+        kubernetes:
+            # The host or IP of the kubernetes cluster
+            host: K8S_HOST
+            # The jwt token used for authenticating kubernetes requests
+            token: K8S_TOKEN
+            jobsNamespace: K8S_JOBS_NAMESPACE
+            baseImage: K8S_BASE_IMAGE
+        # Launcher container tag to use
+        launchVersion: LAUNCH_VERSION
+        # Prefix to the container
+        prefix: EXECUTOR_PREFIX
+    jenkins:
+      jenkins:
+          host: EXECUTOR_JENKINS_HOST
+          port: EXECUTOR_JENKINS_PORT
+          username: EXECUTOR_JENKINS_USERNAME
+          # Jenkins password/token used for authenticating jenkins requests
+          password: EXECUTOR_JENKINS_PASSWORD
+      # The command to start build
+      buildCommand: EXECUTOR_JENKINS_BUILD_COMMAND
+      # The command to clean up build system
+      cleanupCommand: EXECUTOR_JENKINS_CLEANUP_COMMAND
+      # Time (seconds) to destory the job
+      cleanupTimeout: EXECUTOR_JENKINS_CLEANUP_TIMEOUT
 
 scm:
     plugin: SCM_PLUGIN
