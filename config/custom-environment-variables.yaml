@@ -109,6 +109,10 @@ executor:
           prefix: EXECUTOR_JENKINS_DOCKER_PREFIX
           # Launcher container tag to use
           launchVersion: EXECUTOR_JENKINS_LAUNCH_VERSION
+          # Memory limit (docker run `--memory` option)
+          memory: EXECUTOR_JENKINS_DOCKER_MEMORY
+          # Memory limit include swap (docker run `--memory-swap` option)
+          memoryLimit: EXECUTOR_JENKINS_DOCKER_MEMORY_LIMIT
       # The command to start build
       buildScript: EXECUTOR_JENKINS_BUILD_SCRIPT
       # The command to clean up build system
