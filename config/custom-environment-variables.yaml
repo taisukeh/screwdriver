@@ -103,6 +103,8 @@ executor:
           username: EXECUTOR_JENKINS_USERNAME
           # Jenkins password/token used for authenticating jenkins requests
           password: EXECUTOR_JENKINS_PASSWORD
+          # Jenkins slave node label
+          nodeLabel: EXECUTOR_JENKINS_NODE_LABEL
       docker:
           command: EXECUTOR_JENKINS_DOCKER_COMMAND
           # Prefix to the container
