@@ -105,12 +105,18 @@ executor:
           password: EXECUTOR_JENKINS_PASSWORD
       docker:
           command: EXECUTOR_JENKINS_DOCKER_COMMAND
+          # Prefix to the container
+          prefix: EXECUTOR_JENKINS_DOCKER_PREFIX
+          # Launcher container tag to use
+          launchVersion: EXECUTOR_JENKINS_LAUNCH_VERSION
       # The command to start build
       buildScript: EXECUTOR_JENKINS_BUILD_SCRIPT
       # The command to clean up build system
       cleanupScript: EXECUTOR_JENKINS_CLEANUP_SCRIPT
       # Time (seconds) to destory the job
       cleanupTimeLimit: EXECUTOR_JENKINS_CLEANUP_TIME_LIMIT
+      # Interval to detect the stopped job (seconds)
+      cleanupWatchInterval: EXECUTOR_JENKINS_CLEANUP_WATCH_INTERVAL
 
 scm:
     plugin: SCM_PLUGIN
