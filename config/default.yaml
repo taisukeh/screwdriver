@@ -129,7 +129,7 @@ executor:
       docker:
           command: docker
       # Time (seconds) to destory the job
-      cleanupTimeout: 30
+      cleanupTimeLimit: 20
 
 scm:
     plugin: github

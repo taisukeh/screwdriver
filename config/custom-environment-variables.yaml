@@ -106,11 +106,11 @@ executor:
       docker:
           command: EXECUTOR_JENKINS_DOCKER_COMMAND
       # The command to start build
-      buildCommand: EXECUTOR_JENKINS_BUILD_COMMAND
+      buildScript: EXECUTOR_JENKINS_BUILD_SCRIPT
       # The command to clean up build system
-      cleanupCommand: EXECUTOR_JENKINS_CLEANUP_COMMAND
+      cleanupScript: EXECUTOR_JENKINS_CLEANUP_SCRIPT
       # Time (seconds) to destory the job
-      cleanupTimeout: EXECUTOR_JENKINS_CLEANUP_TIMEOUT
+      cleanupTimeLimit: EXECUTOR_JENKINS_CLEANUP_TIME_LIMIT
 
 scm:
     plugin: SCM_PLUGIN
