@@ -108,6 +108,8 @@ executor:
       docker:
           # The path to the docker command
           command: EXECUTOR_JENKINS_DOCKER_COMMAND
+          # The path to the docker command
+          composeCommand: EXECUTOR_JENKINS_DOCKER_COMPOSE_COMMAND
           # Prefix to the container
           prefix: EXECUTOR_JENKINS_DOCKER_PREFIX
           # Launcher container tag to use
